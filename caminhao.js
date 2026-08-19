@@ -1,64 +1,143 @@
-// Classe base que representa um veículo genérico
 class Veiculo {
-    // Construtor da classe Veiculo recebe marca e modelo
     constructor(marca, modelo) {
         this.marca = marca;
         this.modelo = modelo;
     }
 
-    // Método para ligar o veículo
     ligar() {
         console.log(`${this.marca} ${this.modelo} foi ligado.`);
     }
 
-    // Método para desligar o veículo
     desligar() {
         console.log(`${this.marca} ${this.modelo} foi desligado.`);
     }
 }
 
-// Classe Caminhao herda de Veiculo
+
+// CAMINHÃO
 class Caminhao extends Veiculo {
-    // Construtor da classe Caminhao recebe marca, modelo e capacidade da carga
     constructor(marca, modelo, capacidadeCarga) {
-        // Chama o construtor da classe pai (Veiculo)
         super(marca, modelo);
         this.capacidadeCarga = capacidadeCarga;
     }
 
-    // Método para carregar o caminhão com um peso específico
     carregar(peso) {
-        // Verifica se o peso informado é maior que zero
-        if (peso <= 0) {
-            console.log("O peso da carga deve ser maior que zero.");
-            return;
-        }
+        try {
+            if (peso <= 0) {
+                throw new Error("O peso deve ser maior que zero.");
+            }
 
-        // Verifica se a carga excede a capacidade do caminhão
-        if (peso > this.capacidadeCarga) {
-            console.log(
-                `Carga excedida. O caminhão suporta no máximo ${this.capacidadeCarga} kg.`
-            );
-            return;
-        }
+            if (peso > this.capacidadeCarga) {
+                throw new Error(
+                    `Carga excedida. Limite: ${this.capacidadeCarga} kg.`
+                );
+            }
 
-        // Se tudo estiver OK, mostra a mensagem de carga realizada
-        console.log(
-            `Caminhão carregado com ${peso} kg de carga.`
-        );
+            console.log(`Caminhão carregado com ${peso} kg.`);
+        } catch (erro) {
+            console.log("Erro:", erro.message);
+        }
     }
 }
 
-// Criando um objeto da classe Caminhao
+
+// ÔNIBUS
+class Onibus extends Veiculo {
+    constructor(marca, modelo, capacidadePassageiros) {
+        super(marca, modelo);
+        this.capacidadePassageiros = capacidadePassageiros;
+    }
+
+    embarcar(quantidade) {
+        try {
+            if (quantidade <= 0) {
+                throw new Error("A quantidade de passageiros deve ser maior que zero.");
+            }
+
+            if (quantidade > this.capacidadePassageiros) {
+                throw new Error(
+                    `Capacidade excedida. Limite: ${this.capacidadePassageiros} passageiros.`
+                );
+            }
+
+            console.log(`${quantidade} passageiros embarcaram.`);
+        } catch (erro) {
+            console.log("Erro:", erro.message);
+        }
+    }
+}
+
+
+// MOTO
+class Moto extends Veiculo {
+    constructor(marca, modelo, cilindradas) {
+        super(marca, modelo);
+        this.cilindradas = cilindradas;
+    }
+
+    acelerar(velocidade) {
+        try {
+            if (velocidade <= 0) {
+                throw new Error("A velocidade deve ser maior que zero.");
+            }
+
+            if (velocidade > 200) {
+                throw new Error("Velocidade informada acima do limite permitido no sistema.");
+            }
+
+            console.log(`Moto acelerando a ${velocidade} km/h.`);
+        } catch (erro) {
+            console.log("Erro:", erro.message);
+        }
+    }
+}
+
+
+// CRIANDO OS OBJETOS
+
 const caminhao1 = new Caminhao("Volvo", "FH 540", 30000);
 
-// Testando os atributos do objeto criado
-console.log(`Marca: ${caminhao1.marca}`);
-console.log(`Modelo: ${caminhao1.modelo}`);
-console.log(`Capacidade de carga: ${caminhao1.capacidadeCarga} kg`);
+const onibus1 = new Onibus(
+    "Mercedes-Benz",
+    "O 500",
+    45
+);
 
-// Testando os métodos da classe
+const moto1 = new Moto(
+    "Honda",
+    "CB 500",
+    500
+);
+
+
+// TESTANDO CAMINHÃO
+
 caminhao1.ligar();
+
 caminhao1.carregar(20000);
+
 caminhao1.carregar(35000);
+
 caminhao1.desligar();
+
+
+// TESTANDO ÔNIBUS
+
+onibus1.ligar();
+
+onibus1.embarcar(30);
+
+onibus1.embarcar(60);
+
+onibus1.desligar();
+
+
+// TESTANDO MOTO
+
+moto1.ligar();
+
+moto1.acelerar(80);
+
+moto1.acelerar(250);
+
+moto1.desligar();
